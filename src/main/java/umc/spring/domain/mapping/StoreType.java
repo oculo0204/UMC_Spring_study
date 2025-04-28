@@ -1,15 +1,21 @@
 package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
+import umc.spring.domain.Store;
+import umc.spring.domain.StoreCategory;
 
 @Entity
 @Table(name = "store_type")
 public class StoreType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "type_id")
-    private Long typeId;
+    @Column(name = "store_type_id")
+    private Long storetypeId;
 
-    private Long storeId;
-    private Long categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_category_id")
+    private StoreCategory storeCategory;
 }

@@ -1,6 +1,7 @@
 package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
+import umc.spring.domain.Mission;
 import umc.spring.domain.Users;
 import umc.spring.domain.enums.MissionStatus;
 
@@ -13,18 +14,17 @@ public class Solve {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "solve_id")
     private Long solveId;
-
-    private Long userId;
-    private Long missionId;
     @Enumerated(EnumType.STRING)
     private MissionStatus status;
-
     @Column(name = "start_date")
     private LocalDateTime startDate;
-
     @Column(name = "solve_date")
     private LocalDateTime solveDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
     private Users users;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mission_id")
+    private Mission mission;
 }

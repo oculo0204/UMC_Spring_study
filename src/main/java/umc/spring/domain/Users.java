@@ -2,12 +2,16 @@ package umc.spring.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.spring.domain.alarms.Alarm;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.Gender;
 import umc.spring.domain.enums.SocialType;
 import umc.spring.domain.enums.UserStatus;
+import umc.spring.domain.mapping.Prefer;
+import umc.spring.domain.mapping.Solve;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,8 +26,6 @@ public class Users extends BaseEntity {
     @Column(name = "users_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-    @Column(name = "address_id", nullable = false)
-    private Long addressId;
     @Column(length = 40)
     private String name;
     @Column(length = 40)
@@ -54,7 +56,19 @@ public class Users extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
-
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Review> reviews;
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Solve> solves = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private Review review;
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Alarm> alarms = new ArrayList<>();
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Prefer> prefers = new ArrayList<>();
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Store> stores = new ArrayList<>();
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 }

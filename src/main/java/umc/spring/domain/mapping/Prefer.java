@@ -1,6 +1,7 @@
 package umc.spring.domain.mapping;
 
 import jakarta.persistence.*;
+import umc.spring.domain.PreferCategory;
 import umc.spring.domain.Users;
 import umc.spring.domain.common.BaseEntity;
 
@@ -12,8 +13,10 @@ public class Prefer extends BaseEntity {
     @Column(name = "prefer_id")
     private Long preferId;
 
-    private Long userId;
-    private Long categoryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prefer_category_id")
+    private PreferCategory preferCategory;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
     private Users users;

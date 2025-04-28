@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 public class StoreCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private Long categoryId;
+    @Column(name = "store_category_id")
+    private Long storeCategoryId;
 
     private String name;
 }

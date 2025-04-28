@@ -15,12 +15,11 @@ public class Mission extends BaseEntity {
     @Column(name = "mission_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long missionId;
-    @Column(name = "store_id")
-    private Long storeId;
     private Integer price;
     private Integer point;
 
-    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
-    private List<Solve> SolveList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 }
 
