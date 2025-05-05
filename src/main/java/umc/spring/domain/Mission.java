@@ -2,19 +2,21 @@ package umc.spring.domain;
 
 import jakarta.persistence.*;
 import umc.spring.domain.common.BaseEntity;
-import umc.spring.domain.mapping.Solve;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.*;
 
 @Entity
 @Table(name = "mission")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder  // 클래스에 @Builder 추가
 public class Mission extends BaseEntity {
     @Id
     @Column(name = "mission_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long missionId;
+
     private Integer price;
     private Integer point;
 
@@ -22,4 +24,3 @@ public class Mission extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 }
-
