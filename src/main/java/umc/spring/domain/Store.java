@@ -48,4 +48,16 @@ public class Store extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default  // @Builder.Default 추가
     private List<Review> reviews = new ArrayList<>();
+    
+    //읽기
+    @Override
+    public String toString() {
+        return "Store{" +
+                "storeId=" + storeId +
+                ", name='" + name + '\'' +
+                ", region='" + region + '\'' +
+                ", starSum=" + starSum +
+                ", businessHours='" + businessHours + '\'' +
+                '}';
+    }
 }
