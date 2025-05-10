@@ -1,14 +1,22 @@
 package umc.spring.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 
 @Entity
 @Table(name = "store_categories")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class StoreCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private Long categoryId;
+    @Column(name = "store_category_id")
+    private Long storeCategoryId;
 
-    private String name;
+    @Builder.Default
+    private String name = "Unknown";  // 기본값 설정
 }
