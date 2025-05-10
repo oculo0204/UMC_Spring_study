@@ -35,6 +35,7 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
                         mission.price,
                         mission.point,
                         mission.createdAt,
+                        solve.status,
                         store.name
                 )
                 .from(users)
