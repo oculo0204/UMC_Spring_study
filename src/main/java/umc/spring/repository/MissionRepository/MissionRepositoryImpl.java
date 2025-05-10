@@ -13,32 +13,36 @@ import java.util.List;
 
 @Repository
 public class MissionRepositoryImpl implements MissionRepositoryCustom {
+    private final EntityManager em;
 
     @Autowired
-    private EntityManager entityManager;
+    public MissionRepositoryImpl(EntityManager em) {
+        this.em = em;
+    }
 
     @Override
-    public List<Object[]> findOngoingMissions(Long userId, Long cursor, int limit) {
+    public List<?> findOngoingMissions(Long userId, Long cursor, int limit) {
+        QUsers users = QUsers.users;
+        QSolve solve = QSolve.solve;
         QMission mission = QMission.mission;
-        QUsers user = QUsers.users;
-        QSolve solve = QSolve.solve;  // 'Solve'로 변경
         QStore store = QStore.store;
 
-        JPAQuery<Object[]> query = new JPAQuery<>(entityManager);
+        JPAQuery<?> query = new JPAQuery<>(em);
 
         return query.select(
                         mission.missionId,
-                        user.userId,
+                        users.userId,
                         mission.price,
                         mission.point,
-                        solve.status  // 'memberMission'을 'solve'로 변경
+                        mission.createdAt,
+                        store.name
                 )
-                .from(mission)
-                .join(solve).on(mission.missionId.eq(solve.mission.missionId))
-                .join(user).on(solve.users.userId.eq(user.userId))
+                .from(users)
+                .join(solve).on(users.userId.eq(solve.users.userId))
+                .join(mission).on(mission.missionId.eq(solve.mission.missionId))
                 .join(store).on(mission.store.storeId.eq(store.storeId))
                 .where(
-                        user.userId.eq(userId),
+                        users.userId.eq(userId),
                         solve.status.eq(MissionStatus.CHALLENGING),
                         mission.missionId.lt(cursor)
                 )
@@ -48,32 +52,34 @@ public class MissionRepositoryImpl implements MissionRepositoryCustom {
     }
 
     @Override
-    public List<Object[]> findCompletedMissions(Long userId, Long cursor, int limit) {
+    public List<?> findCompletedMissions(Long userId, Long cursor, int limit) {
+        QUsers users = QUsers.users;
+        QSolve solve = QSolve.solve;
         QMission mission = QMission.mission;
-        QUsers user = QUsers.users;
-        QSolve solve = QSolve.solve;  // 'Solve'로 변경
         QStore store = QStore.store;
 
-        JPAQuery<Object[]> query = new JPAQuery<>(entityManager);
+        JPAQuery<?> query = new JPAQuery<>(em);
 
         return query.select(
                         mission.missionId,
-                        store.name,
+                        users.userId,
                         mission.price,
                         mission.point,
-                        solve.status
+                        mission.createdAt,
+                        store.name
                 )
-                .from(mission)
-                .join(solve).on(mission.missionId.eq(solve.mission.missionId))
-                .join(user).on(solve.users.userId.eq(user.userId))
+                .from(users)
+                .join(solve).on(users.userId.eq(solve.users.userId))
+                .join(mission).on(mission.missionId.eq(solve.mission.missionId))
                 .join(store).on(mission.store.storeId.eq(store.storeId))
                 .where(
-                        user.userId.eq(userId),
-                        solve.status.eq("진행완료"),
+                        users.userId.eq(userId),
+                        solve.status.eq(MissionStatus.COMPLETE),
                         mission.missionId.lt(cursor)
                 )
                 .orderBy(mission.missionId.desc())
                 .limit(limit)
                 .fetch();
     }
+
 }
