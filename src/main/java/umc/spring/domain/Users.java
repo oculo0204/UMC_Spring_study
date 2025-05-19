@@ -52,13 +52,13 @@ public class Users extends BaseEntity {
     private String email;
 
     @Column(name = "usertype", length = 15)
-    private String userType;
+    private String userType; //GENERAL, SHOPOWNER
 
     @Column(name = "wholepoint")
     private Long wholePoint;
 
     @Column(name = "point_status", length = 15)
-    private String pointStatus;
+    private String pointStatus;  //NORMAL, CONSUMED
 
     @Column(name = "point_date")
     private LocalDateTime pointDate;
