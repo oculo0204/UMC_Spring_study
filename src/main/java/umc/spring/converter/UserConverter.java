@@ -20,6 +20,18 @@ public class UserConverter {
     public static UserResponseDTO.JoinResultDTO toJoinResultDTO(Users users) {
         return UserResponseDTO.JoinResultDTO.builder()
                 .userId(users.getUserId())
+                .name(users.getName())
+                .nickname(users.getNickname())
+                .email(users.getEmail())
+                .phoneNumber(users.getPhoneNumber())
+                .gender(users.getGender() != null ? users.getGender().name() : null)
+                .birthdate(users.getBirthdate())
+                .userType(users.getUserType())
+                .pointStatus(users.getPointStatus())
+                .wholePoint(users.getWholePoint())
+                .socialType(users.getSocialType() != null ? users.getSocialType().name() : null)
+                .address(users.getAddress() != null ? users.getAddress().getAddress() : null)
+                .detailAddress(users.getAddress() != null ? users.getAddress().getDetailAddress() : null)
                 .createdAt(LocalDateTime.now())
                 .build();
     }

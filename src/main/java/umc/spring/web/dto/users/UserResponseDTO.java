@@ -26,5 +26,7 @@ public class UserResponseDTO {
         private Long wholePoint;
         private String socialType;
         private LocalDateTime createdAt;
+        private String address;
+        private String detailAddress;
     }
 }

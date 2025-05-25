@@ -19,7 +19,7 @@ import umc.spring.web.dto.users.UserResponseDTO;
 public class UserRestController {
     private final UserCommandService userCommandService;
 
-    @PostMapping("/")
+    @PostMapping("/join")
     public ApiResponse<UserResponseDTO.JoinResultDTO> join(@RequestBody @Valid UserRequestDTO.JoinDto request){
         Users user = userCommandService.joinUser(request);
         return ApiResponse.onSuccess(UserConverter.toJoinResultDTO(user));
