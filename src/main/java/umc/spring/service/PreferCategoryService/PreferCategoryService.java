@@ -16,7 +16,4 @@ public class PreferCategoryService {
     public boolean allExistByIds(List<Long> ids) {
         return ids.stream().allMatch(preferCategoryRepository::existsById);
     }
-    public void createStore(StoreRequestDto requestDto){
-
-    }
 }

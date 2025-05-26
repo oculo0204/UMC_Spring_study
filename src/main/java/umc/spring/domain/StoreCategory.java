@@ -1,13 +1,12 @@
 package umc.spring.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 
 @Entity
 @Table(name = "store_categories")
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
