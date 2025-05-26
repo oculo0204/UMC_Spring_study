@@ -15,5 +15,7 @@ public class AddMissionInStoreRequestDto {
         private Integer price;
         @NotNull
         private Integer point;
+        @NotNull
+        private Long storeId;
     }
 }

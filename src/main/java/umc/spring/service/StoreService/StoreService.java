@@ -7,6 +7,5 @@ import umc.spring.web.dto.store.StoreRequestDto;
 
 public interface StoreService {
     public Store createStore(StoreRequestDto.JoinDto storeRequestDto);
-
     public Review createReview(ReviewRequestDto.makeDto requestDto);
 }
