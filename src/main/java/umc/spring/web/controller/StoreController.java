@@ -24,7 +24,11 @@ public class StoreController {
     public ResponseEntity<?> createStore(@Valid @RequestBody StoreRequestDto.JoinDto requestDto) {
         Store newStore = storeService.createStore(requestDto);
         return ResponseEntity.ok(ApiResponse.onSuccess(StoreConverter.toJoinResultDTO(newStore)));
-
+    }
+    @PostMapping("/review")
+    public ResponseEntity<?> createReview(@Valid @RequestBody ReviewRequestDto.makeDto requestDto){
+        Review newReview = storeService.createReview(requestDto);
+        return ResponseEntity.ok(ApiResponse.onSuccess(ReviewConverter.toMakeResultDTO(newReview)));
     }
 
 }
