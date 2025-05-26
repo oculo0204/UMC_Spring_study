@@ -33,4 +33,5 @@ public class StoreQueryServiceImpl implements StoreQueryService{
 
         return filteredStores;
     }
+
 }
