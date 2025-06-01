@@ -2,6 +2,8 @@ package umc.spring.repository.ReviewRepository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.domain.*;
 import umc.spring.web.dto.review.ReviewResponseDto;
