@@ -1,11 +1,10 @@
 package umc.spring.converter;
 
 import org.springframework.data.domain.Page;
-import umc.spring.domain.Address;
-import umc.spring.domain.Review;
-import umc.spring.domain.Store;
-import umc.spring.domain.Users;
+import umc.spring.domain.*;
+import umc.spring.domain.mapping.Solve;
 import umc.spring.domain.mapping.StoreType;
+import umc.spring.web.dto.mission.MissionResponseDto;
 import umc.spring.web.dto.store.StoreRequestDto;
 import umc.spring.web.dto.store.StoreResponseDto;
 import umc.spring.web.dto.users.UserRequestDTO;
@@ -13,6 +12,7 @@ import umc.spring.web.dto.users.UserResponseDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StoreConverter {
@@ -69,4 +69,31 @@ public class StoreConverter {
                 .reviewList(reviewPreViewDTOList)
                 .build();
     }
+    public static MissionResponseDto.MissionPreViewDTO storeMissionDTO(Mission mission, Solve solve) {
+        return MissionResponseDto.MissionPreViewDTO.builder()
+                .storeId(mission.getStore().getStoreId())
+                .missionId(mission.getMissionId())
+                .storeName(mission.getStore().getName())
+                .price(mission.getPrice())
+                .point(mission.getPoint())
+                .status(String.valueOf(solve.getStatus()))
+                .build();
+    }
+
+    public static MissionResponseDto.MissionPreViewListDTO storeMissionListDTO(Page<Mission> missionList, Map<Long, Solve> solveMap) {
+        List<MissionResponseDto.MissionPreViewDTO> missionPreViewDTOList = missionList.stream()
+                .map(mission -> StoreConverter.storeMissionDTO(mission, solveMap.get(mission.getMissionId())))
+                .toList();
+
+        return MissionResponseDto.MissionPreViewListDTO.builder()
+                .missionList(missionPreViewDTOList)
+                .listSize(missionList.getSize())
+                .totalPage(missionList.getTotalPages())
+                .totalElements(missionList.getTotalElements())
+                .isFirst(missionList.isFirst())
+                .isLast(missionList.isLast())
+                .build();
+    }
+
+
 }

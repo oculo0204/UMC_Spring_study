@@ -17,6 +17,9 @@ import umc.spring.web.dto.mission.CreateSolveRequestDto;
 import umc.spring.web.dto.mission.SolveResponseDto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +54,9 @@ public class SolveService {
                 .solveDate(solve.getSolveDate())
                 .build();
     }
-
-}
+    public Map<Long, Solve> getSolvesForMissions(List<Long> missionIds) {
+        List<Solve> solves = solveRepository.findByMission_MissionIdIn(missionIds);
+        return solves.stream()
+                .collect(Collectors.toMap(s -> s.getMission().getMissionId(), s -> s));
+    }}
 
