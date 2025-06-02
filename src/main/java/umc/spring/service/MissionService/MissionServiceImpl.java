@@ -10,6 +10,8 @@ import umc.spring.repository.MissionRepository.MissionRepository;
 import umc.spring.repository.storeRepository.StoreRepository;
 import umc.spring.web.dto.store.AddMissionInStoreRequestDto;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -30,5 +32,8 @@ public class MissionServiceImpl implements MissionService {
                 .build();
         missionRepository.save(mission);
         return mission;
+    }
+    public List<Mission> getMissionsByIds(List<Long> missionIds) {
+        return missionRepository.findAllById(missionIds);
     }
 }

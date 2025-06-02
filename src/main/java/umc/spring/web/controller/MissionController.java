@@ -32,4 +32,11 @@ public class MissionController {
         return ResponseEntity.ok(ApiResponse.onSuccess(solveResponse));
     }
 
+    @PatchMapping("/complete/{solveId}")
+    public ResponseEntity<?> completeSolve(@PathVariable Long solveId) {
+        SolveResponseDto solveResponse = solveService.completeSolve(solveId);
+        return ResponseEntity.ok(ApiResponse.onSuccess(solveResponse));
+    }
+
+
 }

@@ -1,6 +1,9 @@
 package umc.spring.service.MissionService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,5 +61,35 @@ public class SolveService {
         List<Solve> solves = solveRepository.findByMission_MissionIdIn(missionIds);
         return solves.stream()
                 .collect(Collectors.toMap(s -> s.getMission().getMissionId(), s -> s));
-    }}
+    }
+
+    public Page<Solve> getSolvePageByUserIdAndStatus(Long userId, MissionStatus missionStatus, Integer page) {
+        Pageable pageable = PageRequest.of(page, 10); // 페이지 크기 10개 예시
+        return solveRepository.findByUsers_UserIdAndStatus(userId, missionStatus, pageable);
+    }
+    @Transactional
+    public SolveResponseDto completeSolve(Long solveId) {
+        Solve solve = solveRepository.findById(solveId)
+                .orElseThrow(() -> new IllegalArgumentException("Solve not found id=" + solveId));
+
+        if (solve.getStatus() == MissionStatus.COMPLETE) {
+            throw new IllegalStateException("이미 완료된 미션입니다.");
+        }
+
+        solve.setStatus(MissionStatus.COMPLETE);
+        solve.setSolveDate(LocalDateTime.now());  // 완료 시간 기록
+
+        solve = solveRepository.save(solve);
+
+        return SolveResponseDto.builder()
+                .solveId(solve.getSolveId())
+                .userId(solve.getUsers().getUserId())
+                .missionId(solve.getMission().getMissionId())
+                .status(solve.getStatus().name())
+                .startDate(solve.getStartDate())
+                .solveDate(solve.getSolveDate())
+                .build();
+    }
+
+}
 

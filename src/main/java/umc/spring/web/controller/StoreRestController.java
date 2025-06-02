@@ -22,6 +22,7 @@ import umc.spring.domain.mapping.Solve;
 import umc.spring.service.MissionService.SolveService;
 import umc.spring.service.StoreService.StoreQueryService;
 import umc.spring.validation.annotation.ExistStore;
+import umc.spring.validation.annotation.ValidPage;
 import umc.spring.web.dto.mission.MissionResponseDto;
 import umc.spring.web.dto.review.ReviewRequestDto;
 import umc.spring.web.dto.store.StoreRequestDto;
@@ -50,7 +51,7 @@ public class StoreRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<StoreResponseDto.ReviewPreViewListDTO> getReviewList(@ExistStore @PathVariable(name = "storeId") Long storeId,@RequestParam(name = "page") Integer page){
+    public ApiResponse<StoreResponseDto.ReviewPreViewListDTO> getReviewList(@ExistStore @PathVariable(name = "storeId") Long storeId,@RequestParam(name = "page")  @ValidPage Integer page){
         Page<Review> reviewList = storeQueryService.getReviewList(storeId, page);
         return ApiResponse.onSuccess(StoreConverter.reviewPreViewListDTO(reviewList));
     }
@@ -95,7 +96,7 @@ public class StoreRestController {
     @Parameters({
             @Parameter(name = "storeId", description = "가게의 아이디, path variable 입니다!")
     })
-    public ApiResponse<MissionResponseDto.MissionPreViewListDTO> getStoreMission(@ExistStore @PathVariable(name = "storeId") Long storeId,@RequestParam(name = "page") Integer page){
+    public ApiResponse<MissionResponseDto.MissionPreViewListDTO> getStoreMission(@ExistStore @PathVariable(name = "storeId") Long storeId,@RequestParam(name = "page")  @ValidPage Integer page){
         Page<Mission> missionList = storeQueryService.getMissionList(storeId, page);
         // MissionId 리스트 뽑기
         List<Long> missionIds = missionList.stream()
@@ -107,4 +108,5 @@ public class StoreRestController {
         // solveMap 함께 전달
         return ApiResponse.onSuccess(StoreConverter.storeMissionListDTO(missionList, solveMap));
     }
+
 }
