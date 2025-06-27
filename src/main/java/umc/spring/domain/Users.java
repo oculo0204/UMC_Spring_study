@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.spring.domain.common.BaseEntity;
 import umc.spring.domain.enums.Gender;
+import umc.spring.domain.enums.Role;
 import umc.spring.domain.enums.SocialType;
 import umc.spring.domain.enums.UserStatus;
 import umc.spring.domain.mapping.Prefer;
@@ -49,7 +50,12 @@ public class Users extends BaseEntity {
     @Column(name = "inactive_date")
     private LocalDateTime inactiveDate;
 
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "usertype", length = 15)
     private String userType; //GENERAL, SHOPOWNER
@@ -64,7 +70,15 @@ public class Users extends BaseEntity {
     private LocalDateTime pointDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private SocialType socialType;
+
+    // password
+    public void encodePassword(String password) {
+        this.password = password;
+    }
+
+    // 매핑
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")

@@ -1,6 +1,7 @@
 package umc.spring.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.spring.apiPayload.code.status.ErrorStatus;
@@ -25,10 +26,12 @@ public class UserCommandServiceImpl implements UserCommandService {
     private final UsersRepository usersRepository;
     private final PreferCategoryRepository preferCategoryRepository;
     private final AddressRepository addressRepository;
+    private final PasswordEncoder passwordEncoder;
     @Override
     @Transactional
     public Users joinUser(UserRequestDTO.JoinDto request){
         Users newUser = UserConverter.toUsers(request);
+        newUser.encodePassword(passwordEncoder.encode(newUser.getPassword()));
         //주소 연결
         Address address = UserConverter.toAddress(request);
         addressRepository.save(address);
@@ -41,7 +44,8 @@ public class UserCommandServiceImpl implements UserCommandService {
         //선호카테고리 연결
         List<Prefer> preferList = UserConverter.toPreferList(preferCategoryList);
         preferList.forEach(prefer -> {prefer.setUsers(newUser);});
+        newUser.getPrefers().addAll(preferList);
         Users savedUser = usersRepository.save(newUser);
-        return newUser;
+        return savedUser;
     }
 }

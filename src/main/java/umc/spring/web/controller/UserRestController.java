@@ -48,6 +48,7 @@ public class UserRestController {
         Users user = userCommandService.joinUser(request);
         return ApiResponse.onSuccess(UserConverter.toJoinResultDTO(user));
     }
+
     @GetMapping("/mission")
     @Operation(summary = "내가 진행 중인 미션 목록", description = "내가 진행 중인 미션 목록을 조회하는 API이며, 페이징을 포함합니다. query String 으로 page 번호를 주세요")
     @ApiResponses({

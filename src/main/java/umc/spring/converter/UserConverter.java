@@ -48,7 +48,7 @@ public class UserConverter {
         try {
             socialType = SocialType.valueOf(request.getSocialType().toUpperCase());
         } catch (Exception e) {
-            socialType = SocialType.KAKAO;
+            socialType = SocialType.GENERAL;
         }
 
         LocalDateTime birthdate = null;
@@ -71,7 +71,9 @@ public class UserConverter {
                 .status(UserStatus.ACTIVE)
                 .socialType(socialType)
                 .nickname(request.getNickName())
-                .email(null)
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .role(request.getRole())
                 .phoneNumber(null)
                 .image(null)
                 .build();
