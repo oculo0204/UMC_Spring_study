@@ -8,7 +8,7 @@
 </head>
 <body>
 <h2>회원가입</h2>
-<form th:action="@{/users/signup}" th:object="${userJoinDto}" method="post">
+<form th:action="@{/members/signup}" th:object="${userJoinDto}" method="post">
     <div th:if="${error}" th:text="${error}" style="color: red;"></div>
 
     <div>

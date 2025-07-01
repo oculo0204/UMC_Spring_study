@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 
 public class UserConverter {
 
-    public static UserResponseDTO.JoinResultDTO toJoinResultDTO(Users users) {
-        return UserResponseDTO.JoinResultDTO.builder()
+    public static UserResponseDTO.UserResultDTO toUserResultDTO(Users users) {
+        return UserResponseDTO.UserResultDTO.builder()
                 .userId(users.getUserId())
                 .name(users.getName())
                 .nickname(users.getNickname())
@@ -94,4 +94,10 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserResponseDTO.LoginResultDTO toLoginResultDTO(Long userId, String accessToken) {
+        return UserResponseDTO.LoginResultDTO.builder()
+                .userId(userId)
+                .accessToken(accessToken)
+                .build();
+    }
 }

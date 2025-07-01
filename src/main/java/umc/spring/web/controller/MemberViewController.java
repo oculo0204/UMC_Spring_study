@@ -37,7 +37,7 @@ public class MemberViewController {
         return "admin";
     }
 
-    @PostMapping("/users/signup")
+    @PostMapping("/members/signup")
     public String joinUsers(@ModelAttribute("userJoinDto") UserRequestDTO.JoinDto request,
                             BindingResult bindingResult, Model model
     ) {

@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,7 +37,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserRestController {
     private final UserCommandService userCommandService;
@@ -44,9 +46,9 @@ public class UserRestController {
     private final MissionService missionService;
 
     @PostMapping("/join")
-    public ApiResponse<UserResponseDTO.JoinResultDTO> join(@RequestBody @Valid UserRequestDTO.JoinDto request){
+    public ApiResponse<UserResponseDTO.UserResultDTO> join(@RequestBody @Valid UserRequestDTO.JoinDto request){
         Users user = userCommandService.joinUser(request);
-        return ApiResponse.onSuccess(UserConverter.toJoinResultDTO(user));
+        return ApiResponse.onSuccess(UserConverter.toUserResultDTO(user));
     }
 
     @GetMapping("/mission")
@@ -82,4 +84,18 @@ public class UserRestController {
         return ApiResponse.onSuccess(StoreConverter.storeMissionListDTO(missionPage, solveMap));
     }
 
+    @PostMapping("/login")
+    @Operation(summary = "유저 로그인 API",description = "유저가 로그인하는 API입니다.")
+    public ApiResponse<UserResponseDTO.LoginResultDTO> login(@RequestBody @Valid UserRequestDTO.LoginRequestDTO request) {
+        return ApiResponse.onSuccess(userCommandService.loginUser(request));
+    }
+
+    @GetMapping("/info")
+    @Operation(summary = "유저 내 정보 조회 API - 인증 필요",
+            description = "유저가 내 정보를 조회하는 API입니다.",
+            security = { @SecurityRequirement(name = "JWT TOKEN") }
+    )
+    public ApiResponse<UserResponseDTO.UserResultDTO> getMyInfo(HttpServletRequest request) {
+        return ApiResponse.onSuccess(userCommandService.getUserInfo(request));
+    }
 }

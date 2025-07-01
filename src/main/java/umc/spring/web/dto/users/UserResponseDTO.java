@@ -13,7 +13,7 @@ public class UserResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class JoinResultDTO {
+    public static class UserResultDTO {
         private Long userId;
         private String name;
         private String nickname;
@@ -28,5 +28,13 @@ public class UserResponseDTO {
         private LocalDateTime createdAt;
         private String address;
         private String detailAddress;
+    }
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginResultDTO {
+        Long userId;
+        String accessToken;
     }
 }
